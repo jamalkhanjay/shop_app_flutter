@@ -13,12 +13,12 @@ class ProductsList extends StatefulWidget {
 class _ProductsListState extends State<ProductsList> {
   // List (array) of data which is here in this case is 4
   final List<String> filter = const ['All', 'Addidas', 'Nike', 'Bata'];
-  late String selectedColor;
+  late String selectBrand;
 
   @override
   void initState() {
     super.initState();
-    selectedColor = filter[0];
+    selectBrand = filter[0];
   }
 
   @override
@@ -33,6 +33,11 @@ class _ProductsListState extends State<ProductsList> {
         left: Radius.circular(30),
       ),
     );
+
+    // Filtering the products by comapny brand
+    final filteredProducts = selectBrand == 'All'
+        ? products
+        : products.where((item) => item['company'] == selectBrand).toList();
 
     return SafeArea(
       child: Column(
@@ -71,12 +76,12 @@ class _ProductsListState extends State<ProductsList> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        selectedColor = label;
+                        selectBrand = label;
                       });
                     },
                     child: Chip(
                       label: Text(label),
-                      backgroundColor: selectedColor == label
+                      backgroundColor: selectBrand == label
                           ? Theme.of(context).colorScheme.primary
                           : Color.fromRGBO(245, 247, 249, 1),
                       labelStyle: TextStyle(
@@ -98,9 +103,10 @@ class _ProductsListState extends State<ProductsList> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: products.length,
+              itemCount: filteredProducts.length,
               itemBuilder: (context, index) {
-                final product = products[index];
+                final product = filteredProducts[index];
+
                 final title = product['title'];
                 final price = product['price'];
                 final image = product['imageUrl'];
