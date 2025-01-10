@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // When we scroll in the home page and then navigate to cart page and then
-      // back to home page the scolling thigs again starts from the top so for
+      // back to home page the scrolling things again starts from the top so for
       // this here we will use IndexedStack which keep track of this as state like
 
       body: IndexedStack(
